@@ -41,7 +41,7 @@ public class User implements UserDetails{
 	
 	@Enumerated(EnumType.STRING)
 	private Role role;
-
+	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		// TODO Auto-generated method stub

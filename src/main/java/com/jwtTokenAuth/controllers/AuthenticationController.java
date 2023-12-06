@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.jwtTokenAuth.dto.AuthRequest;
 import com.jwtTokenAuth.dto.RegisterRequest;
 import com.jwtTokenAuth.service.AuthenticationService;
+import com.jwtTokenAuth.service.JwtService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,13 +20,16 @@ public class AuthenticationController {
 	
 	private final AuthenticationService authService;
 	
+	private final JwtService service;
+	
 	@PostMapping("/register")
 	public ResponseEntity<?> registerUser(@RequestBody RegisterRequest request){
 		return ResponseEntity.ok(authService.register(request));
 	}
 
 	@PostMapping("/authenticate")
-	public ResponseEntity<?> authenticate(@RequestBody AuthRequest authRequest){
+	public ResponseEntity<?> authenticate(@RequestBody AuthRequest authRequest) throws Exception{
 		return ResponseEntity.ok().body(authService.authenticate(authRequest));
 	}
+	
 }
