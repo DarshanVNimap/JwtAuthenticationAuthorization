@@ -14,6 +14,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 
 @Service
 public class JwtService {
@@ -31,13 +32,9 @@ public class JwtService {
     }
 
     public Claims extractAllClaims(String token) {
-        try {
+ 
             return Jwts.parserBuilder().setSigningKey(getSigningKey()).build().parseClaimsJws(token).getBody();
-        } catch (Exception e) {
-            // Handle the exception (e.g., log or print the error)
-            e.printStackTrace();
-            return null; // Or throw a custom exception if needed
-        }
+    
     }
 
     private Key getSigningKey() {
@@ -51,7 +48,7 @@ public class JwtService {
 
         return Jwts.builder().setClaims(extraClaim).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
